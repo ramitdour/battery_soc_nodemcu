@@ -1,0 +1,83 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <title>AMOR LAMPS</title>
+    <style>
+      a {
+        text-decoration: none;
+        color: black;
+      }
+      .c {
+        text-align: center;
+      }
+      div,
+      input {
+        padding: 5px;
+        font-size: 1em;
+      }
+      input {
+        height: 2.4rem;
+        width: 80%;
+        max-width: 450px;
+        border-radius: 5px;
+      }
+      body {
+        text-align: center;
+        font-family: verdana;
+      }
+    </style>
+    <script>
+      var fileVer = "1.12";
+      var gateway = "ws://" + "192.168.54.220" + ":81/";
+      var wsState = false;
+      var Socket;
+
+      window.addEventListener("load", onLoad);
+
+      function initWebSocket() {
+        console.log("Trying to open a WebSocket connection..." + gateway);
+        Socket = new WebSocket(gateway);
+        Socket.onopen = onOpen;
+        Socket.onclose = onClose;
+        Socket.onmessage = onMessage;
+      }
+
+      function onOpen(event) {
+        console.log("Connection opened");
+        Socket.send("Hello Server!");
+      }
+
+      function onClose(event) {
+        console.log("Connection closed");
+        wsState = false;
+        setTimeout(initWebSocket, 20000);
+      }
+
+      var wsData;
+
+      function onMessage(event) {
+        console.log(event.data);
+      }
+
+      function onLoad(event) {
+        console.log("page loaded");
+        initWebSocket();
+      }
+
+      function init() {
+        console.log("f init()");
+        console.log("index version = " + fileVer);
+      }
+      
+    </script>
+  </head>
+  <body onload="javascript:init()"></body>
+</html>
